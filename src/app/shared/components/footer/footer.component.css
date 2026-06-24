@@ -1,0 +1,20 @@
+.mdc-footer {
+  background-color: var(--bark);
+  color: var(--cream);
+  padding: 20px 0;
+  text-align: center;
+  border-top: 2px solid var(--bark-mid);
+  margin-top: 40px;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.footer-text {
+  font-family: var(--font-header);
+  font-size: 14px;
+  letter-spacing: 0.5px;
+}

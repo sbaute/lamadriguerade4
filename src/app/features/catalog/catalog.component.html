@@ -1,0 +1,195 @@
+<div class="catalog-container">
+  <!-- Sky background and drifting clouds -->
+  <div class="sky-bg">
+    <div class="cloud cloud-1"></div>
+    <div class="cloud cloud-2"></div>
+    <div class="cloud cloud-3"></div>
+  </div>
+
+  <!-- Hero Section -->
+  <header class="hero-section">
+    <img src="/logo.jpg" alt="La Madriguera de Cuatro" class="hero-logo">
+    <h1 class="hero-title">La Madriguera <br class="mobile-break">de Cuatro</h1>
+    <p class="hero-subtitle"> El bienestar de tu amigo es escencial🐰 </p>
+  </header>
+
+  <!-- Categories Filter -->
+  <section class="filters-section">
+    <div class="filter-pills">
+      @for (cat of categories; track cat) {
+      <button (click)="selectCategory(cat)" class="filter-pill" [class.active]="selectedCategory() === cat">
+        {{ cat }}
+      </button>
+      }
+    </div>
+  </section>
+
+  <!-- Products Grid / Loading State -->
+  <main class="catalog-main">
+    @if (isLoading()) {
+    <div class="loading-state">
+      <span class="loading-icon">🍄</span>
+      <p>Buscando en la madriguera...</p>
+    </div>
+    } @else {
+    <div class="products-grid">
+      @for (prod of filteredProducts(); track prod.id) {
+      <article class="card product-card" (click)="openDetails(prod)" style="cursor: pointer;">
+        @if (prod.badge) {
+        <span class="card-peek product-badge">{{ prod.badge }}</span>
+        }
+        <div class="product-img-container">
+          <img [src]="prod.imageUrl" [alt]="prod.name" class="product-img">
+        </div>
+        <div class="product-content">
+          <span class="product-cat-label">{{ prod.category }}</span>
+          <h3 class="product-title">{{ prod.name }}</h3>
+          <p class="product-desc">{{ prod.description }}</p>
+          <div class="product-details">
+            <span class="product-price">$ {{ prod.price | number:'1.0-0' }}</span>
+          </div>
+        </div>
+      </article>
+      } @empty {
+      <div class="empty-catalog">
+        <span class="empty-icon">🍂</span>
+        <h3>Madriguera vacía</h3>
+        <p>No se encontraron productos en esta categoría por el momento.</p>
+      </div>
+      }
+    </div>
+    }
+  </main>
+
+  <!-- FAQ / Shipping Information Section -->
+  <section class="faq-section">
+    <div class="faq-header">
+      <h2>Preguntas Frecuentes & Envíos</h2>
+      <p>Todo lo que necesitas saber para recibir tus productos con amor</p>
+    </div>
+    
+    <div class="faq-accordion">
+      <details [open]="activeFaq() === 0" class="faq-item">
+        <summary class="faq-question" (click)="$event.preventDefault(); toggleFaq(0)">
+          <span class="faq-icon">🥕</span>
+          <h3>¿Cómo realizo un pedido?</h3>
+          <span class="faq-arrow">▼</span>
+        </summary>
+        <div class="faq-answer">
+          <p>Para comprar en la madriguera, seguimos estos sencillos pasos:</p>
+          <ol class="faq-steps">
+            <li><strong>1️⃣ Nos escribís por WhatsApp o MD 📱</strong></li>
+            <li><strong>2️⃣ Para reservar, nos indicás:</strong>
+              <ul>
+                <li>Cuántos kg de heno necesitás.</li>
+                <li>Qué variedad preferís.</li>
+              </ul>
+            </li>
+            <li><strong>3️⃣ Abonás el total (productos + envío) 💳</strong></li>
+            <li><strong>4️⃣ Luego de enviarlo el comprobante</strong>, coordinamos el día y horario del envío según tu comodidad 🚚.</li>
+          </ol>
+          <p class="faq-checkout-note">✨ <strong>¡Y listo!</strong> Tu pedido queda reservado y asegurás lo más esencial para tu compañero 🐹🐰💚</p>
+        </div>
+      </details>
+
+      <details [open]="activeFaq() === 1" class="faq-item">
+        <summary class="faq-question" (click)="$event.preventDefault(); toggleFaq(1)">
+          <span class="faq-icon">🚚</span>
+          <h3>¿Cómo funcionan los envíos y entregas?</h3>
+          <span class="faq-arrow">▼</span>
+        </summary>
+        <div class="faq-answer">
+          <div class="faq-sub-section">
+            <h4>📍 Envíos locales (nuestra zona):</h4>
+            <p>Ofrecemos <strong>envío gratuito hasta el centro</strong> (delimitado hasta el Parque Independencia) siempre y cuando tu compra incluya <strong>2kg o más de heno</strong>. Para otras zonas o cantidades menores, coordinamos el envío con tarifas muy accesibles.</p>
+          </div>
+          
+          <div class="faq-sub-section" style="margin-top: 15px;">
+            <h4>🌎 Envíos a todo el país:</h4>
+            <p>¡Realizamos envíos a todo el país! Nos manejamos con <strong>Vía Cargo</strong>, ya que es la opción más económica.</p>
+            <p><strong>¿Cómo solicitar un envío a otra localidad?</strong></p>
+            <ol class="faq-steps">
+              <li><strong>1️⃣ Elección de productos:</strong> Nos indicás qué productos querés.</li>
+              <li><strong>2️⃣ Pago:</strong> Abonás tu pedido por transferencia.</li>
+              <li><strong>3️⃣ Embalaje y Cotización:</strong> Empaquetamos tu pedido y, tras medir y pesar el bulto, te brindamos el precio cotizado por la empresa de envíos.</li>
+              <li><strong>4️⃣ Despacho:</strong> Despachamos el paquete y te compartimos el número de guía correspondiente.</li>
+            </ol>
+            <p class="faq-checkout-note" style="margin-top: 10px; box-sizing: border-box; width: 100%;">
+              ⚠️ <strong>Recomendación:</strong> Sugerimos siempre solicitar el <strong>retiro en sucursal</strong>, ya que tiene una demora aproximada de 3 días. Los envíos a domicilio suelen tardar más días en ser entregados.
+            </p>
+          </div>
+        </div>
+      </details>
+
+      <details [open]="activeFaq() === 2" class="faq-item">
+        <summary class="faq-question" (click)="$event.preventDefault(); toggleFaq(2)">
+          <span class="faq-icon">💰</span>
+          <h3>¿Cuáles son los métodos de pago aceptados?</h3>
+          <span class="faq-arrow">▼</span>
+        </summary>
+        <div class="faq-answer">
+          <p>Por el momento, el único método de pago aceptado es <strong>transferencia bancaria</strong>. Al realizar tu pedido por WhatsApp o MD, te facilitaremos los datos de la cuenta para que puedas abonar y enviarnos el comprobante correspondiente.</p>
+        </div>
+      </details>
+
+      <details [open]="activeFaq() === 3" class="faq-item">
+        <summary class="faq-question" (click)="$event.preventDefault(); toggleFaq(3)">
+          <span class="faq-icon">🌾</span>
+          <h3>¿Hay descuentos especiales por compras grandes?</h3>
+          <span class="faq-arrow">▼</span>
+        </summary>
+        <div class="faq-answer">
+          <p>¡Sí! Si tu compra incluye <strong>3kg o más de mix de pasturas</strong>, obtienes automáticamente un <strong>6% de descuento</strong> en el total de tu pedido.</p>
+        </div>
+      </details>
+
+      <details [open]="activeFaq() === 4" class="faq-item">
+        <summary class="faq-question" (click)="$event.preventDefault(); toggleFaq(4)">
+          <span class="faq-icon">🌿</span>
+          <h3>¿Cómo conservo el heno?</h3>
+          <span class="faq-arrow">▼</span>
+        </summary>
+        <div class="faq-answer">
+          <p>Para conservar el heno correctamente y evitar el moho, te recomendamos seguir estos consejos:</p>
+          <ul class="faq-steps">
+            <li><strong>✅ Evitar el moho:</strong> Guardalo en un lugar seco, oscuro y bien ventilado, protegido de la luz solar directa y de la humedad del suelo (elevado sobre un cartón o caja).</li>
+            <li><strong>✅ Envase adecuado:</strong> El uso de cajas de cartón, bolsas de tela o contenedores transpirables es ideal para mantener la frescura y evitar la condensación.</li>
+            <li><strong>✅ Conservar el aroma:</strong> Una vez abierta la bolsa, te aconsejamos sacar la porción diaria para tu compañero y volver a cerrarla bien. Así mantendrá todos sus aromas a hierbas, que es lo que a ellos más los atrae a comer 🥰 ¡Tu peludito seguirá comiendo lo que más le gusta!</li>
+          </ul>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- Modal Detalle de Producto -->
+  @if (selectedProduct(); as activeProd) {
+    <div class="modal-overlay" (click)="closeDetails()">
+      <div class="modal-card" (click)="$event.stopPropagation()">
+        <button class="modal-close-btn" (click)="closeDetails()" aria-label="Cerrar">&times;</button>
+        
+        <div class="modal-content">
+          <div class="modal-img-container">
+            <img [src]="activeProd.imageUrl" [alt]="activeProd.name" class="modal-img">
+          </div>
+          
+          <div class="modal-body">
+            <div class="modal-meta">
+              <span class="modal-cat-tag">{{ activeProd.category }}</span>
+              @if (activeProd.badge) {
+                <span class="modal-badge-tag">{{ activeProd.badge }}</span>
+              }
+            </div>
+            
+            <h2 class="modal-title">{{ activeProd.name }}</h2>
+            <p class="modal-description">{{ activeProd.description }}</p>
+            
+            <div class="modal-footer">
+              <span class="modal-price-label">Precio</span>
+              <span class="modal-price-val">$ {{ activeProd.price | number:'1.0-0' }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</div>

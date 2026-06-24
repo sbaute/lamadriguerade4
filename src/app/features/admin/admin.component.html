@@ -1,0 +1,260 @@
+<div class="admin-container">
+  <header class="admin-header">
+    <h2>Panel de Control 📋​</h2>
+    <p>Gestiona el inventario y catálogo de La Madriguera de Cuatro</p>
+  </header>
+
+  <!-- Metrics Grid 
+  <section class="metrics-grid">
+    <div class="metric-card">
+      <div class="metric-icon">📦</div>
+      <div class="metric-info">
+        <h3>Total Productos</h3>
+        <p class="metric-value">{{ totalProducts() }}</p>
+      </div>
+    </div>
+    <div class="metric-card alert">
+      <div class="metric-icon">⚠️</div>
+      <div class="metric-info">
+        <h3>Stock Bajo (&le; 5)</h3>
+        <p class="metric-value">{{ lowStockCount() }}</p>
+      </div>
+    </div>
+    <div class="metric-card honey-card">
+      <div class="metric-icon">💰</div>
+      <div class="metric-info">
+        <h3>Valor Inventario</h3>
+        <p class="metric-value">$ {{ totalInventoryValue() | number:'1.0-0' }}</p>
+      </div>
+    </div>
+  </section> -->
+
+  <!-- Messages feedback -->
+  @if (successMessage) {
+    <div class="feedback-banner success">
+      🎉 {{ successMessage }}
+    </div>
+  }
+  @if (errorMessage) {
+    <div class="feedback-banner error">
+      ⚠️ {{ errorMessage }}
+    </div>
+  }
+
+  <!-- Admin Split View Content -->
+  <div class="admin-split-layout">
+    
+    <!-- Left Column: Products List Table -->
+    <main class="products-list-panel">
+      <div class="panel-card">
+        <h3 class="panel-title">Lista de Artículos Activos</h3>
+        
+        @if (isLoading()) {
+          <div class="table-loading">
+            <span class="spinner-icon">🐰</span>
+            <p>Obteniendo catálogo...</p>
+          </div>
+        } @else {
+          <div class="table-responsive">
+            <table class="products-table">
+              <thead>
+                <tr>
+                  <th>Imagen</th>
+                  <th>Detalles</th>
+                  <th>Categoría</th>
+                  <th>Stock</th>
+                  <th>Precio</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (prod of products(); track prod.id) {
+                  <tr>
+                    <td>
+                      <div class="table-img-container">
+                        <img [src]="prod.imageUrl" [alt]="prod.name" class="table-img">
+                      </div>
+                    </td>
+                    <td>
+                      <div class="table-prod-details">
+                        <div class="table-prod-name">
+                          {{ prod.name }}
+                          @if (prod.badge) {
+                            <span class="table-badge">{{ prod.badge }}</span>
+                          }
+                        </div>
+                        <div class="table-prod-desc">{{ prod.description }}</div>
+                      </div>
+                    </td>
+                    <td>
+                      <span class="category-tag">{{ prod.category }}</span>
+                    </td>
+                    <td>
+                      <span class="stock-badge" [class.danger]="prod.stock <= 5" [class.empty]="prod.stock === 0">
+                        {{ prod.stock }} u.
+                      </span>
+                    </td>
+                    <td class="price-val">${{ prod.price | number:'1.0-0' }}</td>
+                    <td>
+                      <div class="actions-group">
+                        <button (click)="startEdit(prod)" class="btn-action-edit" title="Editar">✏️</button>
+                        <button (click)="deleteProduct(prod.id!)" class="btn-action-delete" title="Eliminar">🗑️</button>
+                      </div>
+                    </td>
+                  </tr>
+                } @empty {
+                  <tr>
+                    <td colspan="6" class="table-empty-msg">
+                      No hay artículos agregados al catálogo. Puedes agregar uno usando el formulario de la derecha. 🐾
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        }
+      </div>
+    </main>
+
+    <!-- Right Column: ABM Form Container -->
+    <aside class="product-form-panel" id="abm-form-container">
+      <div class="panel-card sticky-form">
+        <h3 class="panel-title">
+          @if (editingId) {
+            Editar Artículo 
+          } @else {
+            Nuevo Artículo 
+          }
+        </h3>
+        <p class="panel-subtitle">Completa los datos del producto</p>
+
+        <form (ngSubmit)="onSubmit()" class="abm-form">
+          <div class="form-field">
+            <label for="name">Nombre del Producto *</label>
+            <input 
+              type="text" 
+              id="name" 
+              name="name" 
+              [(ngModel)]="formModel.name" 
+              required 
+              class="input-cottage" 
+              placeholder="Ej: Taza de Porcelana">
+          </div>
+
+          <div class="form-row">
+            <div class="form-field">
+              <label for="category">Categoría *</label>
+              <select 
+                id="category" 
+                name="category" 
+                [(ngModel)]="formModel.category" 
+                required 
+                class="input-cottage select-cottage">
+                @for (cat of categories; track cat) {
+                  <option [value]="cat">{{ cat }}</option>
+                }
+              </select>
+            </div>
+            
+            <div class="form-field">
+              <label for="badge">Etiqueta (Badge)</label>
+              <input 
+                type="text" 
+                id="badge" 
+                name="badge" 
+                [(ngModel)]="formModel.badge" 
+                class="input-cottage" 
+                placeholder="Ej: ¡Nuevo!">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-field">
+              <label for="price">Precio ($) *</label>
+              <input 
+                type="number" 
+                id="price" 
+                name="price" 
+                [(ngModel)]="formModel.price" 
+                required 
+                step="0.01"
+                min="0.01" 
+                class="input-cottage">
+            </div>
+
+            <div class="form-field">
+              <label for="stock">Cantidad en Stock *</label>
+              <input 
+                type="number" 
+                id="stock" 
+                name="stock" 
+                [(ngModel)]="formModel.stock" 
+                required 
+                min="0" 
+                class="input-cottage">
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label>Imagen del Producto *</label>
+            <div class="image-upload-wrapper">
+              <input 
+                type="file" 
+                id="imageFile" 
+                accept="image/*"
+                (change)="onFileSelected($event)"
+                style="display: none;"
+                #fileInput>
+              
+              <div class="upload-trigger" (click)="fileInput.click()">
+                @if (formModel.imageUrl) {
+                  <div class="upload-preview-container">
+                    <img [src]="formModel.imageUrl" alt="Vista previa" class="upload-preview">
+                    <div class="upload-overlay">
+                      <span>Cambiar Imagen 📷</span>
+                    </div>
+                  </div>
+                } @else {
+                  <span class="upload-placeholder">📁 Seleccionar imagen local...</span>
+                }
+              </div>
+            </div>
+            
+            <div class="or-separator">O introduce una dirección URL directa:</div>
+            <input 
+              type="url" 
+              id="imageUrl" 
+              name="imageUrl" 
+              [(ngModel)]="formModel.imageUrl" 
+              class="input-cottage" 
+              placeholder="https://ejemplo.com/imagen.jpg">
+          </div>
+
+          <div class="form-field">
+            <label for="description">Descripción *</label>
+            <textarea 
+              id="description" 
+              name="description" 
+              [(ngModel)]="formModel.description" 
+              required 
+              rows="4" 
+              class="textarea-cottage" 
+              placeholder="Describe los detalles cottagecore del producto..."></textarea>
+          </div>
+
+          <div class="form-actions">
+            @if (editingId) {
+              <button type="button" (click)="cancelEdit()" class="btn-cottage-alt" [disabled]="isSaving">
+                Cancelar
+              </button>
+            }
+            <button type="submit" class="btn-cottage" [disabled]="isSaving">
+              {{ isSaving ? 'Guardando...' : (editingId ? 'Actualizar ✏️' : 'Añadir Producto 🌿') }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </aside>
+
+  </div>
+</div>

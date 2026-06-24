@@ -1,0 +1,19 @@
+<nav class="mdc-nav">
+  <div class="nav-container" [class.no-brand]="!authService.isAuthenticated() || !isAdminPage()">
+    @if (authService.isAuthenticated() && isAdminPage()) {
+      <a routerLink="/" class="nav-brand">
+        <h2>🐰</h2>
+        <span class="user-email-badge">{{ authService.currentUser()?.email }}</span>
+      </a>
+    }
+    <div class="nav-links">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-link">Catálogo</a>
+      @if (authService.isAuthenticated()) {
+        <a routerLink="/admin" routerLinkActive="active" class="nav-link">Panel Admin</a>
+        <button (click)="logout()" class="nav-btn-logout">Salir</button>
+      } @else {
+        <a routerLink="/login" routerLinkActive="active" class="nav-link nav-link-auth">Login</a>
+      }
+    </div>
+  </div>
+</nav>

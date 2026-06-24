@@ -1,1 +1,189 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Baloo+2:wght@400;600;700;800&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* Color Palette (Cottagecore) */
+  --cream: #FFF8EE;
+  --warm: #FFF0D6;
+  --sage: #A8C5A0;
+  --sage-dark: #6E9B6A;
+  --mushroom: #E8B89A;
+  --blush: #F2C4CE;
+  --sky: #B8D8E8;
+  --sky-dark: #7AAEC4;
+  --honey: #E8A84E;
+  --honey-dark: #C07830;
+  --bark: #5C3D2E;
+  --bark-mid: #8B5E3C;
+  --text: #3D2B1F;
+  --text-soft: #7A5C48;
+  --lavender: #C4B4E0;
+
+  /* Font Families */
+  --font-main: 'Nunito', sans-serif;
+  --font-header: 'Baloo 2', sans-serif;
+
+  /* Shadow & Transitions */
+  --shadow-sm: 0 2px 8px rgba(92, 61, 46, 0.08);
+  --shadow-md: 0 8px 24px rgba(92, 61, 46, 0.12);
+  --shadow-lg: 0 16px 32px rgba(92, 61, 46, 0.16);
+  --transition-fast: 0.22s ease-out;
+  --transition-normal: 0.3s ease;
+}
+
+html, body {
+  height: 100%;
+  font-family: var(--font-main);
+  background-color: var(--cream);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-header);
+  font-weight: 700;
+  color: var(--bark);
+}
+
+/* Animations from mockup */
+@keyframes driftCloud {
+  from {
+    transform: translateX(-150px);
+  }
+  to {
+    transform: translateX(100vw);
+  }
+}
+
+@keyframes bunnyBob {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes peek {
+  0%, 75%, 100% {
+    transform: rotate(-18deg) scale(0.75);
+    opacity: 0.6;
+  }
+  40% {
+    transform: rotate(6deg) scale(1);
+    opacity: 1;
+  }
+}
+
+/* Global utility classes for cottagecore styling */
+.btn-cottage {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--sage);
+  color: #fff;
+  border: 2px solid var(--sage-dark);
+  padding: 10px 20px;
+  border-radius: 25px;
+  font-family: var(--font-header);
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-decoration: none;
+}
+
+.btn-cottage:hover {
+  background-color: var(--sage-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-cottage-alt {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--warm);
+  color: var(--text);
+  border: 2px solid var(--mushroom);
+  padding: 10px 20px;
+  border-radius: 25px;
+  font-family: var(--font-header);
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-decoration: none;
+}
+
+.btn-cottage-alt:hover {
+  background-color: var(--mushroom);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-cottage-danger {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--blush);
+  color: var(--bark);
+  border: 2px solid #e09ba8;
+  padding: 10px 20px;
+  border-radius: 25px;
+  font-family: var(--font-header);
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-decoration: none;
+}
+
+.btn-cottage-danger:hover {
+  background-color: #e09ba8;
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+/* Base input styles */
+.input-cottage {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 2px solid rgba(168, 197, 160, 0.4);
+  background-color: #fff;
+  font-family: var(--font-main);
+  font-size: 15px;
+  color: var(--text);
+  outline: none;
+  transition: border-color var(--transition-fast);
+}
+
+.input-cottage:focus {
+  border-color: var(--sage);
+}
+
+.textarea-cottage {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 2px solid rgba(168, 197, 160, 0.4);
+  background-color: #fff;
+  font-family: var(--font-main);
+  font-size: 15px;
+  color: var(--text);
+  outline: none;
+  resize: vertical;
+  transition: border-color var(--transition-fast);
+}
+
+.textarea-cottage:focus {
+  border-color: var(--sage);
+}

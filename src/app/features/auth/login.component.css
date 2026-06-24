@@ -1,0 +1,113 @@
+.login-wrapper {
+  position: relative;
+  min-height: calc(100vh - 150px); /* Adjust to center properly with nav/footer */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  overflow: hidden;
+}
+
+.sky-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 220px;
+  background: linear-gradient(180deg, #C8E8F8 0%, #DDF0F8 60%, #FFF8EE 100%);
+  z-index: 0;
+}
+
+.login-card {
+  position: relative;
+  z-index: 10;
+  background: #ffffff;
+  border: 2px solid rgba(168, 197, 160, 0.4);
+  border-radius: 18px;
+  padding: 40px 30px;
+  width: 100%;
+  max-width: 450px;
+  box-shadow: var(--shadow-md);
+  transition: transform var(--transition-fast);
+}
+
+.login-card:hover {
+  transform: translateY(-2px);
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.mushroom-icon {
+  font-size: 48px;
+  display: inline-block;
+  animation: bunnyBob 2.4s ease-in-out infinite;
+  margin-bottom: 10px;
+}
+
+.login-header h2 {
+  font-family: var(--font-header);
+  font-size: 28px;
+  color: var(--bark);
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: var(--text-soft);
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-family: var(--font-header);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--bark-mid);
+  padding-left: 4px;
+}
+
+.error-banner {
+  background-color: rgba(242, 196, 206, 0.4);
+  border: 1px solid var(--blush);
+  color: var(--bark);
+  padding: 10px 15px;
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.btn-login {
+  width: 100%;
+  justify-content: center;
+  margin-top: 10px;
+  padding: 12px;
+}
+
+/* Inline Validation Styles */
+.input-error {
+  border-color: #c94f68 !important;
+  background-color: rgba(201, 79, 104, 0.02) !important;
+}
+
+.field-error-msg {
+  color: #c94f68;
+  font-size: 12px;
+  margin-top: 4px;
+  padding-left: 4px;
+  font-weight: 500;
+  display: block;
+  animation: fadeIn var(--transition-fast) ease-out;
+}
