@@ -411,7 +411,7 @@
   border: 3px solid var(--sage);
   width: 100%;
   max-width: 760px;
-  height: 500px; /* Altura fija obligatoria */
+  height: 560px; /* Altura fija obligatoria */
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -457,7 +457,7 @@
 
 .modal-img-container {
   width: 100%;
-  height: 45%; /* En móvil ocupa el 45% del alto */
+  height: 40%; /* En móvil ocupa el 40% del alto */
   overflow: hidden;
   background-color: var(--warm); /* Contenedor beige */
   padding: 0;
@@ -476,7 +476,7 @@
   padding: 20px 20px 10px 20px;
   display: flex;
   flex-direction: column;
-  height: 55%; /* En móvil ocupa el 55% del alto */
+  height: 60%; /* En móvil ocupa el 60% del alto */
   justify-content: flex-start;
 }
 
